@@ -16,8 +16,6 @@ func GetAllVariants(field *set.Field, variable set.Variable) ([]set.Set, []set.S
 	curr := set.NewSet(field.PartsCount())
 
 	for curr != univ {
-		x := set.Set(uint(curr) + 1)
-		curr = set.Set(x)
 
 		newSet := set.NewSet(field.PartsCount())
 		for i := 0; i < field.PartsCount(); i++ {
@@ -32,6 +30,8 @@ func GetAllVariants(field *set.Field, variable set.Variable) ([]set.Set, []set.S
 			values = append(values, curr)
 			sets = append(sets, newSet)
 		}
+		x := set.Set(uint(curr) + 1)
+		curr = set.Set(x)
 	}
 
 	return sets, values
