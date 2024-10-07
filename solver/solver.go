@@ -32,15 +32,15 @@ func SolveEq(eq pars.Equation) ([]EqSolution, *set.Field) {
 			s := sets[i]
 			value := values[i]
 
-			if value == field.None() {
+			if s == field.None() {
 
-				solution := NewPrmSolution(s)
+				solution := NewPrmSolution(value)
 				solutions = append(solutions, solution)
 			} else {
 				rule := NewRule([][2]set.Set{
-					{value, field.None()},
+					{s, field.None()},
 				})
-				solution := NewSolution(s, rule)
+				solution := NewSolution(value, rule)
 				solutions = append(solutions, solution)
 			}
 		}
