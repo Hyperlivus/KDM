@@ -26,14 +26,13 @@ func SolveEq(eq pars.Equation) ([]EqSolution, *set.Field) {
 	if res.Tag() == set.VARIABLE {
 		variable := res.(set.Variable)
 		sets, values := GetAllVariants(field, variable)
-		fmt.Printf("%9b \n", variable)
 
 		solutions := make([]EqSolution, 0)
 		for i := 0; i < len(sets); i++ {
 			s := sets[i]
 			value := values[i]
-			fmt.Printf("%5b \n", value)
-			fmt.Println(SetToString(field, value))
+			// fmt.Printf("%5b \n", value)
+			// fmt.Println(SetToString(field, value))
 			if value == field.None() {
 
 				solution := NewPrmSolution(s)
