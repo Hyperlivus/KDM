@@ -16,7 +16,11 @@ func FindIdentsName(expr pars.Expression) []string {
 
 	if expr.Tag() == pars.IDENT {
 		ident := expr.(pars.Ident)
-		return []string{ident.Name}
+		if !slices.Contains(VariableNames, ident.Name) {
+			return []string{ident.Name}
+		} else {
+			return make([]string, 0)
+		}
 	}
 
 	for _, child := range children {
