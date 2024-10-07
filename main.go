@@ -8,6 +8,21 @@ import (
 	"kdm/solver"
 )
 
+func LoadResToFile(path string, equations []pars.Equation) error {
+	res := ""
+	for _, eq := range equations {
+		solutions, field := solver.SolveEq(eq)
+
+		for _, sol := range solutions {
+			res += sol.ToString(field)
+			res += "\n"
+		}
+	}
+
+	err := os.WriteFile(path, []byte(res), 0644)
+	return err
+}
+
 func main() {
 	path := "target/eq.set"
 	code, err := os.ReadFile(path)
@@ -19,12 +34,11 @@ func main() {
 
 	parser := pars.NewParser(code)
 	parser.Parse()
+	equations := parser.Equations()
 
-	for _, eq := range parser.Equations() {
-		solutions, field := solver.SolveEq(eq)
-		for _, sol := range solutions {
-			fmt.Println(sol.ToString(field))
-		}
+	err = LoadResToFile("target/eq.res", equations)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
 
 }
