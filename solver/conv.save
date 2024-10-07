@@ -1,0 +1,67 @@
+package solver
+
+import (
+	"kdm/matf"
+	pars "kdm/parser"
+	"kdm/set"
+)
+
+func getCurrentCode(count int, names []string, ops []pars.BinOperand) []byte {
+
+	//fix this sus
+	namePermutCount := 2
+	nameNotCount := matf.Pow(2, len(names))
+
+	currNamePermut := matf.Log(namePermutCount, count)
+
+	res := make([]byte, 0)
+	nameIter := matf.Pow(len(ops), len(names)-1)
+
+	opLen := len(ops)
+
+	prevOpIndex := 0
+	for i := 0; i < (len(names)*2 - 1); i++ {
+
+		if i%2 == 0 {
+			nameCount := count
+			offset := (count / nameIter)
+
+			chr := names[i/2][0]
+			res = append(res, chr)
+		} else {
+
+			opCount := (i - 1) / 2
+			opIndex := 0
+			if opCount == 0 {
+				opIndex = (count % nameIter) % opLen
+			} else {
+				opIndex = ((count % nameIter) - prevOpIndex) % opIndex
+			}
+			op := ops[opIndex]
+			chr := pars.BinaryStr[op][0]
+			res = append(res, chr)
+		}
+	}
+	return res
+}
+func SetToString(field *set.Field, s set.Set) string {
+	names := field.Names()
+	ops := pars.AllBinOperands
+
+	namePermutCount := 2
+	nameNotCount := matf.Pow(2, len(names))
+
+	nameVariants := matf.Pow(nameNotCount, namePermutCount)
+	iters := matf.Pow(len(ops), len(names)-1) * nameVariants
+
+	for i := 0; i < iters; i++ {
+		code := getCurrentCode(i, names, ops)
+		p := pars.NewParser(append(code, ';'))
+		expr := p.ParseExpr()
+		val := Eval(field, expr).(set.Set)
+		if val == s {
+			return string(code)
+		}
+	}
+	panic("cannot find string rep.")
+}
