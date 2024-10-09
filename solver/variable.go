@@ -15,7 +15,7 @@ func GetAllVariants(field *set.Field, variable set.Variable) ([]set.Set, []set.S
 	bases := variable.GetSets()
 	curr := set.NewSet(field.PartsCount())
 
-	for curr != univ {
+	for curr <= univ {
 
 		newSet := set.NewSet(field.PartsCount())
 		for i := 0; i < field.PartsCount(); i++ {

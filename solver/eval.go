@@ -42,10 +42,7 @@ func Eval(field *set.Field, expr pars.Expression) set.Expression {
 			}
 		} else if binary.Op == pars.MUL {
 			op = func(a uint, b uint) uint {
-				notA := univ.Base() ^ a
-				notB := univ.Base() ^ b
-
-				return notA | notB
+				return a & b
 			}
 		} else if binary.Op == pars.SUB {
 			op = func(a uint, b uint) uint {

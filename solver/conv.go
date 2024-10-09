@@ -46,5 +46,5 @@ func SetToString(field *set.Field, s set.Set) string {
 	if field.Size() == 2 {
 		return Set2ToString(s)
 	}
-	return "sosi yaytsa ya zaebalsa"
+	return "size not 2"
 }
